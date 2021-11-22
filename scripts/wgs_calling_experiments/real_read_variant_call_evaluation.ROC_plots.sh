@@ -48,7 +48,6 @@ function run_default_rtgrocplot() {
         -v ${PWD}:${HOME} -w ${HOME} realtimegenomics/rtg-tools:3.8.4 \
             rtg rocplot \
             --title "${TITLE}" \
-            --plain \
             --zoom=${ZOOM_RANGE_X_START},${ZOOM_RANGE_Y_START},${ZOOM_RANGE_X_END},${ZOOM_RANGE_Y_END} \
             --curve=${BWAMEM_RTG_ROC}=bwamem \
             --curve=${DRAGEN_RTG_ROC}=dragen \
@@ -88,7 +87,6 @@ function run_trained_chr20_rtgrocplot() {
         -v ${PWD}:${HOME} -w ${HOME} realtimegenomics/rtg-tools:3.8.4 \
             rtg rocplot \
             --title "${TITLE}" \
-            --plain \
             --zoom=${ZOOM_RANGE_X_START},${ZOOM_RANGE_Y_START},${ZOOM_RANGE_X_END},${ZOOM_RANGE_Y_END} \
             --curve=${BWAMEM_RTG_ROC}=bwamem \
             --curve=${DRAGEN_RTG_ROC}=dragen \

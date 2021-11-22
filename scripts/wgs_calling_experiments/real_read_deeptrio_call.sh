@@ -55,9 +55,6 @@ copy ${BAM_FILE_MATERNAL} "${WORKDIR}/${INPUT_MATERNAL_BAM}"
 copy ${BAM_FILE_PATERNAL} "${WORKDIR}/${INPUT_PATERNAL_BAM}"
 wget_download https://storage.googleapis.com/cmarkell-vg-wdl-dev/grch38_inputs/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.compact_decoys.fna.gz "${WORKDIR}/${REF_FASTA}"
 wget_download https://storage.googleapis.com/cmarkell-vg-wdl-dev/grch38_inputs/GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.compact_decoys.dict -O "${WORKDIR}/${SEQ_DICT}"
-if [[ $USE_DEFAULT_MODEL != true ]]; then 
-    wget_download https://storage.googleapis.com/cmarkell-vg-wdl-dev/grch38_inputs/dt-giraffe-child-0806.tar.gz -O ${WORKFLOW_INPUT_DIR}/dt-giraffe-child-0806.tar.gz && tar -xzf ${WORKFLOW_INPUT_DIR}/dt-giraffe-child-0806.tar.gz
-fi
 
 # Sort and reorder and indel-realign input trio BAMS
 if [[ $INDEL_REALIGN_BAMS != true ]]; then 
@@ -190,16 +187,27 @@ else
       --task {}'
 fi
 
-
 # Use the custom deeptrio model if processing VG Pedigre-aligned BAMs
 if [[ $USE_DEFAULT_MODEL != true ]]; then
-    docker run \
-    -v ${WORKFLOW_INPUT_DIR}/dt-giraffe-child-0806:${HOME}/dt-giraffe-child-0806 \
-    -v ${PWD}:${HOME} -w ${HOME} docker://google/deepvariant:deeptrio-1.1.0 \
-    /bin/bash -c '/opt/deepvariant/bin/call_variants \
-      --outfile tmp_deeptrio/call_variants_output_child.tfrecord.gz \
-      --examples tmp_deeptrio/make_examples_child.tfrecord@32.gz \
-      --checkpoint dt-giraffe-child-0806/model.ckpt'
+    if [[ ${CHILD_NAME} == *"HG001"* ]]; then
+        wget_download https://storage.googleapis.com/cmarkell-vg-wdl-dev/grch38_inputs/dt-giraffe-child-0821.tar.gz -O ${WORKFLOW_INPUT_DIR}/dt-giraffe-child-0821.tar.gz && tar -xzf ${WORKFLOW_INPUT_DIR}/dt-giraffe-child-0821.tar.gz
+        docker run \
+        -v ${WORKFLOW_INPUT_DIR}/dt-giraffe-child-0821:${HOME}/dt-giraffe-child-0821 \
+        -v ${PWD}:${HOME} -w ${HOME} docker://google/deepvariant:deeptrio-1.1.0 \
+        /bin/bash -c '/opt/deepvariant/bin/call_variants \
+          --outfile tmp_deeptrio/call_variants_output_child.tfrecord.gz \
+          --examples tmp_deeptrio/make_examples_child.tfrecord@32.gz \
+          --checkpoint dt-giraffe-child-0821/model.ckpt'
+    else
+        wget_download https://storage.googleapis.com/cmarkell-vg-wdl-dev/grch38_inputs/dt-giraffe-child-0806.tar.gz -O ${WORKFLOW_INPUT_DIR}/dt-giraffe-child-0806.tar.gz && tar -xzf ${WORKFLOW_INPUT_DIR}/dt-giraffe-child-0806.tar.gz
+        docker run \
+        -v ${WORKFLOW_INPUT_DIR}/dt-giraffe-child-0806:${HOME}/dt-giraffe-child-0806 \
+        -v ${PWD}:${HOME} -w ${HOME} docker://google/deepvariant:deeptrio-1.1.0 \
+        /bin/bash -c '/opt/deepvariant/bin/call_variants \
+          --outfile tmp_deeptrio/call_variants_output_child.tfrecord.gz \
+          --examples tmp_deeptrio/make_examples_child.tfrecord@32.gz \
+          --checkpoint dt-giraffe-child-0806/model.ckpt'
+    fi
 else
     docker run \
     -v ${PWD}:${HOME} -w ${HOME} docker://google/deepvariant:deeptrio-1.1.0 \

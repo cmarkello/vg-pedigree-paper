@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# dragen_map.sh: map HG002, HG003, HG004, HG005, HG006, and HG007 150bp paired reads with Illumina's DRAGEN module to the HS38d1 reference
+# dragen_map.sh: map HG001, NA12891, NA12892, HG002, HG003, HG004, HG005, HG006, and HG007 150bp paired reads with Illumina's DRAGEN module to the HS38d1 reference
 
 set -ex
 set -o pipefail
@@ -22,7 +22,7 @@ function copy() {
     fi
 }
 
-SAMPLE_NAMES=("HG002" "HG003" "HG004" "HG005" "HG006" "HG007")
+SAMPLE_NAMES=("HG001" "NA12891" "NA12892" "HG002" "HG003" "HG004" "HG005" "HG006" "HG007")
 WORKDIR=${HOME}/run_dragen_mapping
 REF_FASTA="GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.compact_decoys.fna"
 
@@ -61,6 +61,15 @@ for SAMPLE_NAME in "${SAMPLE_NAMES[@]}" ; do
     elif [[ ${SAMPLE_NAME} == *"HG007"* ]]; then
         wget_download https://storage.googleapis.com/deepvariant/benchmarking/fastq/wgs_pcr_free/30x/HG007.novaseq.pcr-free.30x.R1.fastq.gz "${WORKDIR}/${SAMPLE_NAME}.R1.fastq.gz"
         wget_download https://storage.googleapis.com/deepvariant/benchmarking/fastq/wgs_pcr_free/30x/HG007.novaseq.pcr-free.30x.R2.fastq.gz "${WORKDIR}/${SAMPLE_NAME}.R2.fastq.gz"
+    elif [[ ${SAMPLE_NAME} == *"HG001"* ]]; then
+        wget_download https://storage.googleapis.com/deepvariant/benchmarking/fastq/wgs_pcr_free/30x/HG001.novaseq.pcr-free.30x.R1.fastq.gz "${WORKDIR}/${SAMPLE_NAME}.R1.fastq.gz"
+        wget_download https://storage.googleapis.com/deepvariant/benchmarking/fastq/wgs_pcr_free/30x/HG001.novaseq.pcr-free.30x.R2.fastq.gz "${WORKDIR}/${SAMPLE_NAME}.R2.fastq.gz"
+    elif [[ ${SAMPLE_NAME} == *"NA12891"* ]]; then
+        wget_download https://storage.googleapis.com/deepvariant/benchmarking/fastq/wgs_pcr_free/30x/NA12891.novaseq.pcr-free.30x.R1.fastq.gz "${WORKDIR}/${SAMPLE_NAME}.R1.fastq.gz"
+        wget_download https://storage.googleapis.com/deepvariant/benchmarking/fastq/wgs_pcr_free/30x/NA12891.novaseq.pcr-free.30x.R2.fastq.gz "${WORKDIR}/${SAMPLE_NAME}.R2.fastq.gz"
+    elif [[ ${SAMPLE_NAME} == *"NA12892"* ]]; then
+        wget_download https://storage.googleapis.com/deepvariant/benchmarking/fastq/wgs_pcr_free/30x/NA12892.novaseq.pcr-free.30x.R1.fastq.gz "${WORKDIR}/${SAMPLE_NAME}.R1.fastq.gz"
+        wget_download https://storage.googleapis.com/deepvariant/benchmarking/fastq/wgs_pcr_free/30x/NA12892.novaseq.pcr-free.30x.R2.fastq.gz "${WORKDIR}/${SAMPLE_NAME}.R2.fastq.gz"
     fi
     
     # run bwa mem mapper

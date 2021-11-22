@@ -1,36 +1,38 @@
 # Real Read Mapping Scripts
 
-The scripts in this directory run the BWA-MEM, DRAGEN, VG Giraffe, and VG Pedigree mappers and workflows against real reads from the Genome-in-a-Bottle HG002 and HG005 samples.
+The scripts in this directory run the BWA-MEM, DRAGEN, VG Giraffe, and VG Pedigree mappers and workflows against real reads from the Genome-in-a-Bottle HG001, HG002 and HG005 samples.
 
 ## Running the scripts
 
-First, run the bwa mem mapper on the HG002 and HG005 trio sample set.
+First, run the bwa mem mapper on the HG001, HG002 and HG005 trio sample set.
 
 ```
 ./bwamem_map.sh
 ```
 
-Next, run the Illumina DRAGEN platform mapper on the HG002 and HG005 trio sample set.
+Next, run the Illumina DRAGEN platform mapper on the HG001, HG002 and HG005 trio sample set.
 
 ```
 ./dragen_map.sh
 ```
 
-Following that, run the VG Giraffe alignment on the HG002 and HG005 trio sample sets against the 1000GP graph reference 
+Following that, run the VG Giraffe alignment on the HG001 trio sample set against the CEPH removed 1000GP graph reference and the HG002 and HG005 trio sample sets against the 1000GP graph reference.
 
 ```
 ./giraffe_map.sh
 ```
 
-Finally, run the VG Pedigree alignment workflow on the HG002 and HG005 trio sample sets.
+Finally, run the VG Pedigree alignment workflow on the HG001, HG002 and HG005 trio sample sets.
 Once, each, using the default deeptrio and deepvariant models.
 And another, each using the trained deeptrio and deepvariant models.
 
 ```
 ./giraffe_pedigree_map.sh HG002 default
 ./giraffe_pedigree_map.sh HG005 default
+./giraffe_pedigree_map.sh HG001 default
 ./giraffe_pedigree_map.sh HG002 trained
 ./giraffe_pedigree_map.sh HG005 trained
+./giraffe_pedigree_map.sh HG001 trained
 ```
 
 ## Output files

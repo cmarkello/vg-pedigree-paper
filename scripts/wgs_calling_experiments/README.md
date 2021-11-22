@@ -17,7 +17,7 @@ First, run the Illumina DRAGEN variant caller on the HG002 and HG005 sample sets
 ./real_read_dragen_call.sh HG005 ${HOME}/run_giraffe_pedigree_mapping/HG005_default_vg_pedigree_outstore/HG005_merged.bam true
 ```
 
-Next, run the DeepTrio variant caller on the HG002 and HG005 trio sample sets of alignments.
+Next, run the DeepTrio variant caller on the HG001, HG002 and HG005 trio sample sets of alignments.
 
 ```
 ./real_read_deeptrio_call.sh BWAMEM HG002 HG004 HG003 ${HOME}/run_bwamem_mapping/bwamem_HG002.sam ${HOME}/run_bwamem_mapping/bwamem_HG004.sam ${HOME}/run_bwamem_mapping/bwamem_HG003.sam
@@ -29,6 +29,11 @@ Next, run the DeepTrio variant caller on the HG002 and HG005 trio sample sets of
 ./real_read_deeptrio_call.sh DRAGEN HG005 HG007 HG006 ${HOME}/run_dragen_mapping/dragen_output_HG005.bam ${HOME}/run_dragen_mapping/dragen_output_HG007.bam ${HOME}/run_dragen_mapping/dragen_output_HG006.bam
 ./real_read_deeptrio_call.sh GIRAFFE_1000GP HG005 HG007 HG006 ${HOME}/run_giraffe_mapping/giraffe_HG005.bam ${HOME}/run_giraffe_mapping/giraffe_HG007.bam ${HOME}/run_giraffe_mapping/giraffe_HG006.bam
 ./real_read_deeptrio_call.sh GIRAFFE_PARENTAL HG005 HG007 HG006 ${HOME}/run_giraffe_pedigree_mapping/HG005_default_vg_pedigree_outstore/HG005_merged.bam ${HOME}/run_giraffe_pedigree_mapping/HG005_default_vg_pedigree_outstore/HG007_merged.bam ${HOME}/run_giraffe_pedigree_mapping/HG005_default_vg_pedigree_outstore/HG006_merged.bam
+
+./real_read_deeptrio_call.sh BWAMEM HG001 NA12892 NA12891 ${HOME}/run_bwamem_mapping/bwamem_HG001.sam ${HOME}/run_bwamem_mapping/bwamem_NA12892.sam ${HOME}/run_bwamem_mapping/bwamem_NA12891.sam
+./real_read_deeptrio_call.sh DRAGEN HG001 NA12892 NA12891 ${HOME}/run_dragen_mapping/dragen_output_HG001.bam ${HOME}/run_dragen_mapping/dragen_output_NA12892.bam ${HOME}/run_dragen_mapping/dragen_output_NA12891.bam
+./real_read_deeptrio_call.sh GIRAFFE_1000GP HG001 NA12892 NA12891 ${HOME}/run_giraffe_mapping/giraffe_HG001.bam ${HOME}/run_giraffe_mapping/giraffe_NA12892.bam ${HOME}/run_giraffe_mapping/giraffe_NA12891.bam
+./real_read_deeptrio_call.sh GIRAFFE_PARENTAL HG001 NA12892 NA12891 ${HOME}/run_giraffe_pedigree_mapping/HG001_default_vg_pedigree_outstore/HG001_merged.bam ${HOME}/run_giraffe_pedigree_mapping/HG001_default_vg_pedigree_outstore/NA12892_merged.bam ${HOME}/run_giraffe_pedigree_mapping/HG001_default_vg_pedigree_outstore/NA12891_merged.bam
 ```
 
 Following that, run DeepTrio calling using the trained deeptrio experimental models on the BAMs of the 1000GP-based and Parental-based Giraffe alignments.
@@ -39,9 +44,12 @@ Following that, run DeepTrio calling using the trained deeptrio experimental mod
 
 ./real_read_deeptrio_call.sh GIRAFFE_1000GP_TRAINED_CHR20 HG005 HG007 HG006 ${HOME}/run_giraffe_mapping/giraffe_HG005.bam ${HOME}/run_giraffe_mapping/giraffe_HG007.bam ${HOME}/run_giraffe_mapping/giraffe_HG006.bam false false true
 ./real_read_deeptrio_call.sh GIRAFFE_PARENTAL_TRAINED_CHR20 HG005 HG007 HG006 ${HOME}/run_giraffe_pedigree_mapping/HG005_default_vg_pedigree_outstore/HG005_merged.bam ${HOME}/run_giraffe_pedigree_mapping/HG005_default_vg_pedigree_outstore/HG007_merged.bam ${HOME}/run_giraffe_pedigree_mapping/HG005_default_vg_pedigree_outstore/HG006_merged.bam false false true
+
+./real_read_deeptrio_call.sh GIRAFFE_1000GP_TRAINED_CHR20 HG001 NA12892 NA12891 ${HOME}/run_giraffe_mapping/giraffe_HG001.bam ${HOME}/run_giraffe_mapping/giraffe_NA12892.bam ${HOME}/run_giraffe_mapping/giraffe_NA12891.bam false false true
+./real_read_deeptrio_call.sh GIRAFFE_PARENTAL_TRAINED_CHR20 HG001 NA12892 NA12891 ${HOME}/run_giraffe_pedigree_mapping/HG001_default_vg_pedigree_outstore/HG001_merged.bam ${HOME}/run_giraffe_pedigree_mapping/HG001_default_vg_pedigree_outstore/NA12892_merged.bam ${HOME}/run_giraffe_pedigree_mapping/HG001_default_vg_pedigree_outstore/NA12891_merged.bam false false true
 ```
 
-Then run DeepVariant calling on the HG002 and HG005 trio sample sets of alignments.
+Then run DeepVariant calling on the HG001, HG002 and HG005 trio sample sets of alignments.
 ```
 ./real_read_deepvariant_call.sh BWAMEM HG002 ${HOME}/run_bwamem_mapping/bwamem_HG002.sam 
 ./real_read_deepvariant_call.sh DRAGEN HG002 ${HOME}/run_dragen_mapping/dragen_output_HG002.bam
@@ -52,6 +60,11 @@ Then run DeepVariant calling on the HG002 and HG005 trio sample sets of alignmen
 ./real_read_deepvariant_call.sh DRAGEN HG005 ${HOME}/run_dragen_mapping/dragen_output_HG005.bam
 ./real_read_deepvariant_call.sh GIRAFFE_1000GP HG005 ${HOME}/run_giraffe_mapping/giraffe_HG005.bam
 ./real_read_deepvariant_call.sh GIRAFFE_PARENTAL HG005 ${HOME}/run_giraffe_pedigree_mapping/HG005_default_vg_pedigree_outstore/HG005_merged.bam
+
+./real_read_deepvariant_call.sh BWAMEM HG001 ${HOME}/run_bwamem_mapping/bwamem_HG001.sam
+./real_read_deepvariant_call.sh DRAGEN HG001 ${HOME}/run_dragen_mapping/dragen_output_HG001.bam
+./real_read_deepvariant_call.sh GIRAFFE_1000GP HG001 ${HOME}/run_giraffe_mapping/giraffe_HG001.bam
+./real_read_deepvariant_call.sh GIRAFFE_PARENTAL HG001 ${HOME}/run_giraffe_pedigree_mapping/HG001_default_vg_pedigree_outstore/HG001_merged.bam
 ```
 
 Finally run the variant call evaluations on the called VCFs
@@ -76,6 +89,11 @@ Finally run the variant call evaluations on the called VCFs
 ./real_read_variant_call_evaluation.sh HG005 ${HOME}/run_deeptrio_genotyping/HG005_DEEPTRIO.abra_gatk_targets.GIRAFFE_1000GP.vcf.gz VG_1000GP DEEPTRIO_DEFAULT true
 ./real_read_variant_call_evaluation.sh HG005 ${HOME}/run_deeptrio_genotyping/HG005_DEEPTRIO.abra_gatk_targets.GIRAFFE_PARENTAL.vcf.gz VG_PARENTAL DEEPTRIO_DEFAULT true
 
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPTRIO.abra_gatk_targets.BWAMEM.vcf.gz BWAMEM DEEPTRIO_DEFAULT true
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPTRIO.abra_gatk_targets.DRAGEN.vcf.gz DRAGEN DEEPTRIO_DEFAULT true
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPTRIO.abra_gatk_targets.GIRAFFE_1000GP.vcf.gz VG_1000GP DEEPTRIO_DEFAULT true
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPTRIO.abra_gatk_targets.GIRAFFE_PARENTAL.vcf.gz VG_PARENTAL DEEPTRIO_DEFAULT true
+
 ./real_read_variant_call_evaluation.sh HG002 ${HOME}/run_deeptrio_genotyping/HG002_DEEPTRIO.abra_gatk_targets.BWAMEM.vcf.gz BWAMEM DEEPTRIO_DEFAULT true true
 ./real_read_variant_call_evaluation.sh HG002 ${HOME}/run_deeptrio_genotyping/HG002_DEEPTRIO.abra_gatk_targets.DRAGEN.vcf.gz DRAGEN DEEPTRIO_DEFAULT true true
 ./real_read_variant_call_evaluation.sh HG002 ${HOME}/run_deeptrio_genotyping/HG002_DEEPTRIO.abra_gatk_targets.GIRAFFE_1000GP_TRAINED_CHR20.vcf.gz VG_1000GP DEEPTRIO_TRAINED true true
@@ -90,6 +108,13 @@ Finally run the variant call evaluations on the called VCFs
 ./real_read_variant_call_evaluation.sh HG005 ${HOME}/run_deeptrio_genotyping/HG005_DEEPTRIO.abra_gatk_targets.GIRAFFE_1000GP.vcf.gz VG_1000GP DEEPTRIO_DEFAULT true true
 ./real_read_variant_call_evaluation.sh HG005 ${HOME}/run_deeptrio_genotyping/HG005_DEEPTRIO.abra_gatk_targets.GIRAFFE_PARENTAL.vcf.gz VG_PARENTAL DEEPTRIO_DEFAULT true true
 
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPTRIO.abra_gatk_targets.BWAMEM.vcf.gz BWAMEM DEEPTRIO_DEFAULT true true
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPTRIO.abra_gatk_targets.DRAGEN.vcf.gz DRAGEN DEEPTRIO_DEFAULT true true
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPTRIO.abra_gatk_targets.GIRAFFE_1000GP_TRAINED_CHR20.vcf.gz VG_1000GP DEEPTRIO_TRAINED true true
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPTRIO.abra_gatk_targets.GIRAFFE_PARENTAL_TRAINED_CHR20.vcf.gz VG_PARENTAL DEEPTRIO_TRAINED true true
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPTRIO.abra_gatk_targets.GIRAFFE_1000GP.vcf.gz VG_1000GP DEEPTRIO_DEFAULT true true
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPTRIO.abra_gatk_targets.GIRAFFE_PARENTAL.vcf.gz VG_PARENTAL DEEPTRIO_DEFAULT true true
+
 
 ./real_read_variant_call_evaluation.sh HG002 ${HOME}/run_deeptrio_genotyping/HG002_DEEPVARIANT.abra_gatk_targets.BWAMEM.vcf.gz BWAMEM DEEPVARIANT_DEFAULT true
 ./real_read_variant_call_evaluation.sh HG002 ${HOME}/run_deeptrio_genotyping/HG002_DEEPVARIANT.abra_gatk_targets.DRAGEN.vcf.gz DRAGEN DEEPVARIANT_DEFAULT true
@@ -100,6 +125,11 @@ Finally run the variant call evaluations on the called VCFs
 ./real_read_variant_call_evaluation.sh HG005 ${HOME}/run_deeptrio_genotyping/HG005_DEEPVARIANT.abra_gatk_targets.DRAGEN.vcf.gz DRAGEN DEEPVARIANT_DEFAULT true
 ./real_read_variant_call_evaluation.sh HG005 ${HOME}/run_deeptrio_genotyping/HG005_DEEPVARIANT.abra_gatk_targets.GIRAFFE_1000GP.vcf.gz VG_1000GP DEEPVARIANT_DEFAULT true
 ./real_read_variant_call_evaluation.sh HG005 ${HOME}/run_deeptrio_genotyping/HG005_DEEPVARIANT.abra_gatk_targets.GIRAFFE_PARENTAL.vcf.gz VG_PARENTAL DEEPVARIANT_DEFAULT true
+
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPVARIANT.abra_gatk_targets.BWAMEM.vcf.gz BWAMEM DEEPVARIANT_DEFAULT true
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPVARIANT.abra_gatk_targets.DRAGEN.vcf.gz DRAGEN DEEPVARIANT_DEFAULT true
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPVARIANT.abra_gatk_targets.GIRAFFE_1000GP.vcf.gz VG_1000GP DEEPVARIANT_DEFAULT true
+./real_read_variant_call_evaluation.sh HG001 ${HOME}/run_deeptrio_genotyping/HG001_DEEPVARIANT.abra_gatk_targets.GIRAFFE_PARENTAL.vcf.gz VG_PARENTAL DEEPVARIANT_DEFAULT true
 ```
 
 Render the calculated roc curves into plots
@@ -117,15 +147,15 @@ and `${SAMPLE}` is one of `HG002` or `HG005`.
 
 DeepTrio-based caller outputs will be located in files named `${SAMPLE}_DEEPTRIO.abra_gatk_targets.${ALIGNER}.vcf.gz`
 where `${ALIGNER}` is one of `BWAMEM`, `DRAGEN`, `GIRAFFE_1000GP`, `GIRAFFE_1000GP_TRAINED_CHR20`, `GIRAFFE_PARENTAL`, or `GIRAFFE_PARENTAL_TRAINED_CHR20`
-and `${SAMPLE}` is one of `HG002` or `HG005`.
+and `${SAMPLE}` is one of `HG001`, `HG002` or `HG005`.
 
 DeepVariant-based caller outputs will be located in files named `${SAMPLE}_DEEPVARIANT.abra_gatk_targets.${ALIGNER}.vcf.gz`
 where `${ALIGNER}` is one of `BWAMEM`, `DRAGEN`, `GIRAFFE_1000GP`, or `GIRAFFE_PARENTAL`
-and `${SAMPLE}` is one of `HG002` or `HG005`.
+and `${SAMPLE}` is one of `HG001`, `HG002` or `HG005`.
 
 Variant calling evaluation outputs will be located in files named `${EVAL}_vcfeval_output_${SAMPLE}_${REGION}_${ALIGNER}_${CALLER}${CHR20_FLAG}`
 where `${EVAL}` is one of `happy` or `rtg`
-and `${SAMPLE}` is one of `HG002` or `HG005`
+and `${SAMPLE}` is one of `HG001`, `HG002` or `HG005`
 and `${REGION}` is one of `allhighconfregions`, `alldifficultregions`, `alllowmapandsegdupregions`, `MHC`, or `CMRG`
 and `${ALIGNER}` is one of `BWAMEM`, `DRAGEN`, `VG_1000GP`, or `VG_PARENTAL`
 and `${CALLER}` is one of `DRAGEN`, `DEEPTRIO_DEFAULT`, `DEEPTRIO_TRAINED_chr20`, and `DEEPVARIANT_DEFAULT`.

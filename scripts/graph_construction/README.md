@@ -20,10 +20,12 @@ Finally, run the construction workflow for building the graph and indexes for th
 
 ```
 ./make_1000GPlons_GRCh38_graph.sh
+./make_1000GPlons_GRCh38_graph.no_ceph.sh
 ```
 
 ## Output files
 
 The Primary graph reference indexes will be located in `${HOME}/run_graph_construction/construct-grch38-primary-outstore`.
 The 1000GP graph reference and indexes will be located in `${HOME}/run_graph_construction/construct-grch38-liftover-nosegdup-outstore`.
+The 1000GP graph reference and indexes with the CEPH sample variants removed will be located in `${HOME}/run_graph_construction/construct-grch38-liftover-nosegdup-noceph-outstore`.
 
