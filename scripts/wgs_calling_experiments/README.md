@@ -156,7 +156,7 @@ and `${SAMPLE}` is one of `HG001`, `HG002` or `HG005`.
 Variant calling evaluation outputs will be located in files named `${EVAL}_vcfeval_output_${SAMPLE}_${REGION}_${ALIGNER}_${CALLER}${CHR20_FLAG}`
 where `${EVAL}` is one of `happy` or `rtg`
 and `${SAMPLE}` is one of `HG001`, `HG002` or `HG005`
-and `${REGION}` is one of `allhighconfregions`, `alldifficultregions`, `alllowmapandsegdupregions`, `MHC`, or `CMRG`
+and `${REGION}` is one of `allhighconfregions`, `alldifficultregions`, `alllowmapandsegdupregions`, `MHC`, `CMRG`, `complexandSVs`, `snpswithin10bp_slop50`, `complexindel10bp_slop50`, `comphetsnp10bp_slop50` or `comphetindel10bp_slop50`
 and `${ALIGNER}` is one of `BWAMEM`, `DRAGEN`, `VG_1000GP`, or `VG_PARENTAL`
 and `${CALLER}` is one of `DRAGEN`, `DEEPTRIO_DEFAULT`, `DEEPTRIO_TRAINED_chr20`, and `DEEPVARIANT_DEFAULT`.
 

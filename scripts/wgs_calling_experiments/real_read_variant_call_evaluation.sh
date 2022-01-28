@@ -157,6 +157,11 @@ wget_download https://storage.googleapis.com/cmarkell-vg-wdl-dev/grch38_inputs/A
 wget_download https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/genome-stratifications/v2.0/GRCh38/union/GRCh38_alldifficultregions.bed.gz "${WORKDIR}/GRCh38_alldifficultregions.bed.gz"
 wget_download https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/genome-stratifications/v2.0/GRCh38/union/GRCh38_alllowmapandsegdupregions.bed.gz "${WORKDIR}/GRCh38_alllowmapandsegdupregions.bed.gz"
 wget_download https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/genome-stratifications/v2.0/GRCh38/OtherDifficult/GRCh38_MHC.bed.gz "${WORKDIR}/GRCh38_MHC.bed.gz"
+wget_download https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.0/GRCh38/GenomeSpecific/GRCh38_${CHILD_NAME}_v4.2.1_complexandSVs.bed.gz "${WORKDIR}/GRCh38_${CHILD_NAME}_v4.2.1_complexandSVs.bed.gz"
+wget_download https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.0/GRCh38/GenomeSpecific/GRCh38_${CHILD_NAME}_v4.2.1_snpswithin10bp_slop50.bed.gz "${WORKDIR}/GRCh38_${CHILD_NAME}_v4.2.1_snpswithin10bp_slop50.bed.gz"
+wget_download https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.0/GRCh38/GenomeSpecific/GRCh38_${CHILD_NAME}_v4.2.1_complexindel10bp_slop50.bed.gz "${WORKDIR}/GRCh38_${CHILD_NAME}_v4.2.1_complexindel10bp_slop50.bed.gz"
+wget_download https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.0/GRCh38/GenomeSpecific/GRCh38_${CHILD_NAME}_v4.2.1_comphetsnp10bp_slop50.bed.gz "${WORKDIR}/GRCh38_${CHILD_NAME}_v4.2.1_comphetsnp10bp_slop50.bed.gz"
+wget_download https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v3.0/GRCh38/GenomeSpecific/GRCh38_${CHILD_NAME}_v4.2.1_comphetindel10bp_slop50.bed.gz "${WORKDIR}/GRCh38_${CHILD_NAME}_v4.2.1_comphetindel10bp_slop50.bed.gz"
 if [[ ${CHILD_NAME} == *"HG002"* ]]; then
     wget_download https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/NISTv4.2.1/GRCh38/HG002_GRCh38_1_22_v4.2.1_benchmark.vcf.gz "${WORKDIR}/${CHILD_NAME}_GRCh38_1_22_v4.2.1_benchmark.vcf.gz"
     wget_download https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/NISTv4.2.1/GRCh38/HG002_GRCh38_1_22_v4.2.1_benchmark.vcf.gz.tbi "${WORKDIR}/${CHILD_NAME}_GRCh38_1_22_v4.2.1_benchmark.vcf.gz.tbi"
@@ -202,6 +207,17 @@ for REGION in "MHC" "alllowmapandsegdupregions" "alldifficultregions" ; do
     run_rtgvcfeval rtg_vcfeval_output_${CHILD_NAME}_${REGION}_${MAP_METHOD}_${CALL_METHOD}${CHR20_FLAG} "${CHILD_NAME}_GRCh38_1_22_v4.2.1_benchmark${CHR20_FLAG}.vcf.gz" "${CHILD_NAME}_GRCh38_v4.2.1.${REGION}${CHR20_FLAG}.bed" "${VCF_FILE_CHILD_BASENAME}" ${REF_FASTA}
 done
 
+# Evaluate Called File in Sample-specific Difficult Regions
+if [ "${EVALUATE_CHR20}" != true ]; then
+    for REGION in "complexandSVs" "snpswithin10bp_slop50" "complexindel10bp_slop50" "comphetsnp10bp_slop50" "comphetindel10bp_slop50" ; do
+        cd $WORKDIR
+        make_bedfile ${CHILD_NAME}_GRCh38_1_22_v4.2.1_benchmark_noinconsistent${CHR20_FLAG}.bed GRCh38_${CHILD_NAME}_v4.2.1_${REGION}.bed.gz ${CHILD_NAME}_GRCh38_v4.2.1.${REGION}.bed
+        run_happy happy_vcfeval_output_${CHILD_NAME}_${REGION}_${MAP_METHOD}_${CALL_METHOD}${CHR20_FLAG} "${CHILD_NAME}_GRCh38_1_22_v4.2.1_benchmark${CHR20_FLAG}.vcf.gz" "${CHILD_NAME}_GRCh38_v4.2.1.${REGION}.bed" "${VCF_FILE_CHILD_BASENAME}" ${REF_FASTA} ${CONV_GVCF_QUERY}
+        run_rtgvcfeval rtg_vcfeval_output_${CHILD_NAME}_${REGION}_${MAP_METHOD}_${CALL_METHOD}${CHR20_FLAG} "${CHILD_NAME}_GRCh38_1_22_v4.2.1_benchmark${CHR20_FLAG}.vcf.gz" "${CHILD_NAME}_GRCh38_v4.2.1.${REGION}.bed" "${VCF_FILE_CHILD_BASENAME}" ${REF_FASTA}
+    done
+fi
+
+# Evaluate CMRG Regions in HG002
 if [[ ${CHILD_NAME} == *"HG002"* ]]; then
     wget_download https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/CMRG_v1.00/GRCh38/SmallVariant/HG002_GRCh38_CMRG_smallvar_v1.00.vcf.gz "${WORKDIR}/${CHILD_NAME}_GRCh38_1_22_v4.2.1_benchmark.CMRG.vcf.gz"
     wget_download https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/CMRG_v1.00/GRCh38/SmallVariant/HG002_GRCh38_CMRG_smallvar_v1.00.vcf.gz.tbi "${WORKDIR}/${CHILD_NAME}_GRCh38_1_22_v4.2.1_benchmark.CMRG.vcf.gz.tbi"
