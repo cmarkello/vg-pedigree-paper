@@ -46,7 +46,7 @@ cd $WORKDIR
 wget_download https://storage.googleapis.com/cmarkell-vg-wdl-dev/test_input_reads/HG002.novaseq.pcr-free.35x.R1.fastq.gz "${WORKDIR}/${SAMPLE_NAME}.R1.fastq.gz"
 wget_download https://storage.googleapis.com/cmarkell-vg-wdl-dev/test_input_reads/HG002.novaseq.pcr-free.35x.R2.fastq.gz "${WORKDIR}/${SAMPLE_NAME}.R2.fastq.gz"
 wget_download https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/NISTv4.2.1/GRCh38/HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed "${WORKDIR}/HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed"
-wget_download https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/genome-stratifications/v2.0/GRCh38/union/GRCh38_alldifficultregions.bed.gz "${WORKDIR}/GRCh38_alldifficultregions.bed.gz"
+wget_download https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/genome-stratifications/v2.0/GRCh38/LowComplexity/GRCh38_AllTandemRepeatsandHomopolymers_slop5.bed.gz "${WORKDIR}/GRCh38_AllTandemRepeatsandHomopolymers_slop5.bed.gz"
 wget_download https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/genome-stratifications/v2.0/GRCh38/union/GRCh38_alllowmapandsegdupregions.bed.gz "${WORKDIR}/GRCh38_alllowmapandsegdupregions.bed.gz"
 wget_download https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/genome-stratifications/v2.0/GRCh38/OtherDifficult/GRCh38_MHC.bed.gz "${WORKDIR}/GRCh38_MHC.bed.gz"
 wget_download https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/CMRG_v1.00/GRCh38/SmallVariant/HG002_GRCh38_CMRG_smallvar_v1.00.bed "${WORKDIR}/HG002_GRCh38_CMRG_smallvar_v1.00.bed"
@@ -75,7 +75,7 @@ docker run -v ${PWD}:${HOME} -w ${HOME} quay.io/biocontainers/bedtools:2.27.0--1
 make_nosnp1kg_bedfile HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed HG002_snp1kg_liftover_grch38.intersect.160bp_slop.bed HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.NO_SNP1KG.bed
 make_nosnp1kg_bedfile HG002_GRCh38_CMRG_smallvar_v1.00.bed HG002_snp1kg_liftover_grch38.CMRG.intersect.160bp_slop.bed HG002_GRCh38_CMRG_smallvar_v1.00.NO_SNP1KG.bed
 
-for REGION in "MHC.bed" "alllowmapandsegdupregions.bed" "alldifficultregions.bed" ; do
+for REGION in "MHC.bed" "alllowmapandsegdupregions.bed" "AllTandemRepeatsandHomopolymers_slop5.bed" ; do
     make_bedfile HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed GRCh38_${REGION}.gz HG002_GRCh38_v4.2.1.${REGION}
     make_bedfile HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.NO_SNP1KG.bed GRCh38_${REGION}.gz HG002_GRCh38_v4.2.1.NO_SNP1KG.${REGION}
 done
@@ -92,12 +92,12 @@ reformat.sh t=2 in=HG002.R1-shuffled-1m.fq.gz in2=HG002.R2-shuffled-1m.fq.gz out
 
 ## SIMULATE BASELINE READS
 
-# Simulate 1M reads for all high confident region stratification
+# Simulate 10M reads for all high confident region stratification
 docker run \
--e NREADS=1000000 \
+-e NREADS=10000000 \
 -e FASTQ=HG002_merged_interleaved-shuffled-1m.fastq.gz \
 -v ${PWD}:${HOME} -w ${HOME} quay.io/vgteam/vg:ci-2890-655a9622c3d60e87f14b88d943fbd8554214a975 \
-/bin/bash -c 'vg sim -r -I -n $NREADS -a -s 12345 -p 570 -v 165 -i 0.00029 -x hg002_sample_grch38.xg -g hg002_sample_grch38.gbwt --sample-name HG002 --ploidy-regex "hs38d1:0,chrNC_007605:0,chrX:1,chrY:1,chrY_.*:1,chrEBV:0,.*:2" -F $FASTQ > sim.1m.raw.gam'
+/bin/bash -c 'vg sim -r -I -n $NREADS -a -s 12345 -p 570 -v 165 -i 0.00029 -x hg002_sample_grch38.xg -g hg002_sample_grch38.gbwt --sample-name HG002 --ploidy-regex "hs38d1:0,chrNC_007605:0,chrX:1,chrY:1,chrY_.*:1,chrEBV:0,.*:2" -F $FASTQ > sim.10m.raw.gam'
 
 # Simulate 100M reads for difficult region stratification
 docker run \
@@ -106,8 +106,8 @@ docker run \
 -v ${PWD}:${HOME} -w ${HOME} quay.io/vgteam/vg:ci-2890-655a9622c3d60e87f14b88d943fbd8554214a975 \
 /bin/bash -c 'vg sim -r -I -n $NREADS -a -s 12345 -p 570 -v 165 -i 0.00029 -x hg002_sample_grch38.xg -g hg002_sample_grch38.gbwt --sample-name HG002 --ploidy-regex "hs38d1:0,chrNC_007605:0,chrX:1,chrY:1,chrY_.*:1,chrEBV:0,.*:2" -F $FASTQ > sim.100m.raw.gam'
 
-declare -a REGION_LIST=( "high_conf_hg002_v4.2.1_regions_1M" "all_difficult_regions_hg002_v4.2.1_regions_1M" "alllowmapandsegdupregions_hg002_v4.2.1_regions_100M" "mhc_hg002_v4.2.1_regions_100M" "cmrg_hg002_v4.2.1_regions_100M" "high_conf_NO1000GP_hg002_v4.2.1_regions_1M" "all_difficult_regions_NO1000GP_hg002_v4.2.1_regions_1M" "alllowmapandsegdupregions_NO1000GP_hg002_v4.2.1_regions_100M" "mhc_hg002_NO1000GP_v4.2.1_regions_100M" "cmrg_hg002_NO1000GP_v4.2.1_regions_100M" )
-declare -a BED_FILE_LIST=( "HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed" "HG002_GRCh38_v4.2.1.alldifficultregions.bed" "HG002_GRCh38_v4.2.1.alllowmapandsegdupregions.bed" "HG002_GRCh38_v4.2.1.MHC.bed" "HG002_GRCh38_CMRG_smallvar_v1.00.bed" "HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.NO_SNP1KG.bed" "HG002_GRCh38_v4.2.1.NO_SNP1KG.alldifficultregions.bed" "HG002_GRCh38_v4.2.1.NO_SNP1KG.alllowmapandsegdupregions.bed" "HG002_GRCh38_v4.2.1.NO_SNP1KG.MHC.bed" "HG002_GRCh38_CMRG_smallvar_v1.00.NO_SNP1KG.bed" )
+declare -a REGION_LIST=( "high_conf_hg002_v4.2.1_regions_10M" "all_difficult_regions_hg002_v4.2.1_regions_10M" "alllowmapandsegdupregions_hg002_v4.2.1_regions_100M" "mhc_hg002_v4.2.1_regions_100M" "cmrg_hg002_v4.2.1_regions_100M" "high_conf_NO1000GP_hg002_v4.2.1_regions_10M" "all_difficult_regions_NO1000GP_hg002_v4.2.1_regions_10M" "alllowmapandsegdupregions_NO1000GP_hg002_v4.2.1_regions_100M" "mhc_hg002_NO1000GP_v4.2.1_regions_100M" "cmrg_hg002_NO1000GP_v4.2.1_regions_100M" )
+declare -a BED_FILE_LIST=( "HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed" "HG002_GRCh38_v4.2.1.AllTandemRepeatsandHomopolymers_slop5.bed" "HG002_GRCh38_v4.2.1.alllowmapandsegdupregions.bed" "HG002_GRCh38_v4.2.1.MHC.bed" "HG002_GRCh38_CMRG_smallvar_v1.00.bed" "HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.NO_SNP1KG.bed" "HG002_GRCh38_v4.2.1.NO_SNP1KG.AllTandemRepeatsandHomopolymers_slop5.bed" "HG002_GRCh38_v4.2.1.NO_SNP1KG.alllowmapandsegdupregions.bed" "HG002_GRCh38_v4.2.1.NO_SNP1KG.MHC.bed" "HG002_GRCh38_CMRG_smallvar_v1.00.NO_SNP1KG.bed" )
 
 for index in "${!REGION_LIST[@]}"; do
     REGION="${REGION_LIST[index]}"
@@ -117,7 +117,7 @@ for index in "${!REGION_LIST[@]}"; do
     if [[ ${REGION} == *"alllowmapandsegdupregions"* || ${REGION} == *"MHC"* || ${REGION} == *"CMRG"* ]]; then
         cp sim.100m.raw.gam ${WORKDIR}/${REGION}/sim.raw.gam
     else
-        cp sim.1m.raw.gam ${WORKDIR}/${REGION}/sim.raw.gam
+        cp sim.10m.raw.gam ${WORKDIR}/${REGION}/sim.raw.gam
     fi
     cd ${WORKDIR}/${REGION}
     docker run \
