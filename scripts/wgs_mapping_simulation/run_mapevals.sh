@@ -11,8 +11,7 @@ mkdir -p "${TMPDIR}"
 
 cd ${WORKDIR}
 
-declare -a SIMULATED_READ_DIR_LIST=( "high_conf_hg002_v4.2.1_regions_1M" "all_difficult_regions_hg002_v4.2.1_regions_1M" "alllowmapandsegdupregions_hg002_v4.2.1_regions_100M" "mhc_hg002_v4.2.1_regions_100M" "cmrg_hg002_v4.2.1_regions_100M" "high_conf_NO1000GP_hg002_v4.2.1_regions_1M" "all_difficult_regions_NO1000GP_hg002_v4.2.1_regions_1M" "alllowmapandsegdupregions_NO1000GP_hg002_v4.2.1_regions_100M" "mhc_hg002_NO1000GP_v4.2.1_regions_100M" "cmrg_hg002_NO1000GP_v4.2.1_regions_100M" )
-declare -a SIMULATED_READ_DIR_LIST=( "." "high_conf_hg002_v4.2.1_regions" "all_difficult_regions_hg002_v4.2.1_regions" "alllowmapandsegdupregions_hg002_v4.2.1_regions" "mhc_hg002_v4.2.1_regions" "cmrg_hg002_v4.2.1_regions" "high_conf_NO1000GP_hg002_v4.2.1_regions" )
+declare -a SIMULATED_READ_DIR_LIST=( "high_conf_hg002_v4.2.1_regions_10M" "AllTandemRepeatsandHomopolymers_slop5_hg002_v4.2.1_regions_100M" "alllowmapandsegdupregions_hg002_v4.2.1_regions_100M" "mhc_hg002_v4.2.1_regions_100M" "cmrg_hg002_v4.2.1_regions_100M" "high_conf_NO1000GP_hg002_v4.2.1_regions_10M" "AllTandemRepeatsandHomopolymers_slop5_NO1000GP_hg002_v4.2.1_regions_100M" "alllowmapandsegdupregions_NO1000GP_hg002_v4.2.1_regions_100M" "mhc_hg002_NO1000GP_v4.2.1_regions_100M" "cmrg_hg002_NO1000GP_v4.2.1_regions_100M" )
 
 for SIMULATED_READ_DIR in "${SIMULATED_READ_DIR_LIST[@]}" ; do
     cd ${WORK_DIR}

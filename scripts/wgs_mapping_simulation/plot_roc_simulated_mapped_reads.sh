@@ -16,7 +16,7 @@ function humanize_names() {
     sed -e 's/[a-zA-Z0-9_.]*bwamem[a-zA-Z0-9_.]*/BWA/' -e 's/[a-zA-Z0-9_.]*giraffe_parental_default[a-zA-Z0-9_.]*/GiraffeParental/' -e 's/[a-zA-Z0-9_.]*giraffe_snp1kg_default[a-zA-Z0-9_.]*/Giraffe1000GP/' -e 's/[a-zA-Z0-9_.]*giraffe_primary_default[a-zA-Z0-9_.]*/GiraffePrimary/'
 }
 
-declare -a REGION_LIST=( "high_conf_hg002_v4.2.1_regions_1M" "all_difficult_regions_hg002_v4.2.1_regions_1M" "alllowmapandsegdupregions_hg002_v4.2.1_regions_100M" "mhc_hg002_v4.2.1_regions_100M" "cmrg_hg002_v4.2.1_regions_100M" "high_conf_NO1000GP_hg002_v4.2.1_regions_1M" "all_difficult_regions_NO1000GP_hg002_v4.2.1_regions_1M" "alllowmapandsegdupregions_NO1000GP_hg002_v4.2.1_regions_100M" "mhc_hg002_NO1000GP_v4.2.1_regions_100M" "cmrg_hg002_NO1000GP_v4.2.1_regions_100M" )
+declare -a REGION_LIST=( "high_conf_hg002_v4.2.1_regions_10M" "all_difficult_regions_hg002_v4.2.1_regions_10M" "alllowmapandsegdupregions_hg002_v4.2.1_regions_100M" "mhc_hg002_v4.2.1_regions_100M" "cmrg_hg002_v4.2.1_regions_100M" "high_conf_NO1000GP_hg002_v4.2.1_regions_10M" "all_difficult_regions_NO1000GP_hg002_v4.2.1_regions_10M" "alllowmapandsegdupregions_NO1000GP_hg002_v4.2.1_regions_100M" "mhc_hg002_NO1000GP_v4.2.1_regions_100M" "cmrg_hg002_NO1000GP_v4.2.1_regions_100M" )
 
 for REGION in "${REGION_LIST[@]}" ; do
     cd ${WORK_DIR}

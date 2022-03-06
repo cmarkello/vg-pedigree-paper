@@ -106,7 +106,7 @@ docker run \
 -v ${PWD}:${HOME} -w ${HOME} quay.io/vgteam/vg:ci-2890-655a9622c3d60e87f14b88d943fbd8554214a975 \
 /bin/bash -c 'vg sim -r -I -n $NREADS -a -s 12345 -p 570 -v 165 -i 0.00029 -x hg002_sample_grch38.xg -g hg002_sample_grch38.gbwt --sample-name HG002 --ploidy-regex "hs38d1:0,chrNC_007605:0,chrX:1,chrY:1,chrY_.*:1,chrEBV:0,.*:2" -F $FASTQ > sim.100m.raw.gam'
 
-declare -a REGION_LIST=( "high_conf_hg002_v4.2.1_regions_10M" "all_difficult_regions_hg002_v4.2.1_regions_10M" "alllowmapandsegdupregions_hg002_v4.2.1_regions_100M" "mhc_hg002_v4.2.1_regions_100M" "cmrg_hg002_v4.2.1_regions_100M" "high_conf_NO1000GP_hg002_v4.2.1_regions_10M" "all_difficult_regions_NO1000GP_hg002_v4.2.1_regions_10M" "alllowmapandsegdupregions_NO1000GP_hg002_v4.2.1_regions_100M" "mhc_hg002_NO1000GP_v4.2.1_regions_100M" "cmrg_hg002_NO1000GP_v4.2.1_regions_100M" )
+declare -a REGION_LIST=( "high_conf_hg002_v4.2.1_regions_10M" "AllTandemRepeatsandHomopolymers_slop5_hg002_v4.2.1_regions_100M" "alllowmapandsegdupregions_hg002_v4.2.1_regions_100M" "mhc_hg002_v4.2.1_regions_100M" "cmrg_hg002_v4.2.1_regions_100M" "high_conf_NO1000GP_hg002_v4.2.1_regions_10M" "AllTandemRepeatsandHomopolymers_slop5_NO1000GP_hg002_v4.2.1_regions_100M" "alllowmapandsegdupregions_NO1000GP_hg002_v4.2.1_regions_100M" "mhc_NO1000GP_hg002_v4.2.1_regions_100M" "cmrg_NO1000GP_hg002_v4.2.1_regions_100M" )
 declare -a BED_FILE_LIST=( "HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.bed" "HG002_GRCh38_v4.2.1.AllTandemRepeatsandHomopolymers_slop5.bed" "HG002_GRCh38_v4.2.1.alllowmapandsegdupregions.bed" "HG002_GRCh38_v4.2.1.MHC.bed" "HG002_GRCh38_CMRG_smallvar_v1.00.bed" "HG002_GRCh38_1_22_v4.2.1_benchmark_noinconsistent.NO_SNP1KG.bed" "HG002_GRCh38_v4.2.1.NO_SNP1KG.AllTandemRepeatsandHomopolymers_slop5.bed" "HG002_GRCh38_v4.2.1.NO_SNP1KG.alllowmapandsegdupregions.bed" "HG002_GRCh38_v4.2.1.NO_SNP1KG.MHC.bed" "HG002_GRCh38_CMRG_smallvar_v1.00.NO_SNP1KG.bed" )
 
 for index in "${!REGION_LIST[@]}"; do
@@ -114,7 +114,7 @@ for index in "${!REGION_LIST[@]}"; do
     BED_FILE="${BED_FILE_LIST[index]}"
     mkdir -p ${WORKDIR}/${REGION}
     cp hg002_sample_grch38.vg ${REGION}/
-    if [[ ${REGION} == *"alllowmapandsegdupregions"* || ${REGION} == *"MHC"* || ${REGION} == *"CMRG"* ]]; then
+    if [[ ${REGION} == *"AllTandemRepeatsandHomopolymers_slop5"* || ${REGION} == *"alllowmapandsegdupregions"* || ${REGION} == *"MHC"* || ${REGION} == *"CMRG"* ]]; then
         cp sim.100m.raw.gam ${WORKDIR}/${REGION}/sim.raw.gam
     else
         cp sim.10m.raw.gam ${WORKDIR}/${REGION}/sim.raw.gam
